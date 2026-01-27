@@ -1,0 +1,415 @@
+🎯 ROLE
+
+Act as a Senior Full-Stack Engineer, Systems Architect, and Product Designer.
+Build a Matter-inspired content curation and reading web app — a lightweight MVP for saving articles, highlighting text, adding notes, and listening via Text-to-Speech.
+
+This is NOT a full Matter clone.
+Prioritize speed, usability, clean UI, real functionality, performance, and shipping fast.
+
+🧠 PRODUCT GOAL
+
+Create a personal knowledge library where users can:
+
+Save article URLs or manual text
+
+Read content in a clean distraction-free reader
+
+Highlight important text
+
+Add notes tied to articles
+
+View all highlights in one place
+
+Search and filter saved content
+
+Track reading progress
+
+Listen to articles via audio (Text-to-Speech)
+
+Use the app privately with secure authentication
+
+The app should feel:
+Fast • Minimal • Typography-focused • Practical • Polished
+
+🔐 AUTHENTICATION & SECURITY
+
+Implement secure user authentication with:
+
+Email + Password Signup/Login
+
+JWT or Session-based auth
+
+Secure password hashing
+
+Session persistence
+
+Logout
+
+Strict per-user data access
+
+Users can only access their own saved content
+
+Allowed stacks:
+NextAuth / Firebase Auth / Supabase Auth / JWT
+
+Choose the fastest to implement.
+
+🏗️ TECH STACK (FAST MVP)
+
+Frontend
+
+Next.js or React
+
+Tailwind CSS
+
+Minimal animations
+
+Dark mode (Matter-inspired)
+
+Backend
+
+Supabase / Firebase / Node / Express
+
+Database
+
+PostgreSQL / Supabase / MongoDB
+
+🗄️ DATABASE SCHEMA (RELATIONAL)
+Users
+
+id
+
+email
+
+password_hash
+
+created_at
+
+Articles
+
+id
+
+url
+
+title
+
+author
+
+domain
+
+content_raw (HTML)
+
+content_clean (Markdown/Text)
+
+word_count
+
+published_date
+
+User_Library
+
+id
+
+user_id
+
+article_id
+
+status (enum: inbox, queue, archive)
+
+is_favorite (boolean)
+
+read_progress (float)
+
+saved_at
+
+Highlights
+
+id
+
+user_id
+
+article_id
+
+text_content
+
+note
+
+color_hex
+
+created_at
+
+Notes
+
+id
+
+user_id
+
+article_id
+
+note_text
+
+created_at
+
+📦 CORE FEATURES (MVP)
+1️⃣ User Accounts
+
+Signup
+
+Login
+
+Logout
+
+Private saved content
+
+2️⃣ Content Ingestion
+
+Create a function that:
+
+Accepts a URL
+
+Fetches article HTML
+
+Strips ads/nav/irrelevant elements
+
+Extracts clean readable text
+
+Stores both raw + cleaned content
+
+3️⃣ Save Content
+
+Users can save:
+
+Article URLs
+
+Manual text
+
+Store:
+
+Title
+
+Source
+
+Extracted text
+
+Created date
+
+4️⃣ Queue / Library Page
+
+Show saved content list with:
+
+Title
+
+Source
+
+Preview snippet
+
+Status (Inbox / Queue / Archive)
+
+Open
+
+Delete
+
+Favorite
+
+Sort by saved_at (descending)
+
+Performance requirement: Indexed queries with sub-100ms response time.
+
+5️⃣ Reader View
+
+Build a distraction-free reading interface:
+
+Typography rules:
+
+Max width: 700px
+
+Line height: 1.6
+
+High-contrast dark mode
+
+Clean Swiss typography style
+
+Features:
+
+Scrollable article
+
+Text selection
+
+Inline highlights
+
+Estimated read time (225 WPM)
+
+Track read progress
+
+6️⃣ Highlight System
+
+Users can:
+
+Select text
+
+Highlight
+
+Choose color
+
+Save highlights per article
+
+View highlights globally
+
+Click highlight → jump to article
+
+7️⃣ Notes System
+
+Users can:
+
+Add notes linked to articles
+
+Edit/Delete notes
+
+8️⃣ Highlights Page
+
+Show:
+
+All highlights
+
+Article reference
+
+Jump-to-article
+
+9️⃣ Search & Filter
+
+Users can:
+
+Search saved content
+
+Filter by keyword or title
+
+Filter by status
+
+🔊 10️⃣ AUDIO READER (REQUIRED)
+
+Users can:
+
+Play article audio
+
+Pause / Resume
+
+Adjust playback speed
+
+Resume from read_progress
+
+Implement via:
+
+Browser SpeechSynthesis API (preferred for MVP)
+OR
+
+Google TTS / ElevenLabs
+
+UI Requirement:
+A persistent bottom audio player bar showing:
+
+Current article title
+
+Playback progress
+
+Play/Pause
+
+Speed control
+
+Bonus: Highlight text while reading.
+
+⚡ PERFORMANCE & SYSTEMS REQUIREMENTS
+
+Minimize client bundle size
+
+Fast Time-to-Interactive
+
+Indexed DB queries
+
+Offline caching for opened articles
+
+Cache articles locally after first open
+
+Efficient API routes
+
+Avoid over-engineering
+
+🎨 UI / NAVIGATION
+Left Sidebar
+
+Home
+
+Queue
+
+Highlights
+
+Notes
+
+Settings
+
+Required Pages
+
+/login
+
+/signup
+
+/home
+
+/queue
+
+/reader/:id
+
+/highlights
+
+/notes
+
+/settings (optional)
+
+UI Style
+
+Dark mode
+
+Minimal
+
+Matter-inspired
+
+Reader-focused
+
+Audio play button visible in Reader
+
+🎁 OPTIONAL BONUS
+
+AI article summary
+
+Tag system
+
+Export highlights
+
+Favorite articles
+
+🎯 EXPECTED OUTPUT
+
+Generate a real working MVP, including:
+
+✅ Full project folder structure
+✅ Frontend components
+✅ Backend API routes
+✅ Auth logic
+✅ Database schema & migrations
+✅ Article ingestion logic
+✅ Highlight & notes logic
+✅ Reader UI
+✅ Audio player logic
+✅ Offline caching strategy
+✅ Setup & run instructions
+✅ Deployment guide
+
+⚡ BUILD PRIORITIES
+
+Working product > perfect UI
+Simple architecture > complex frameworks
+Speed > over-engineering
+Real usability > theoretical perfection
+
+🏁 FINAL INSTRUCTION
+
+Start building immediately.
+Generate actual code, real implementation, real structure — not theory.
