@@ -33,30 +33,46 @@ export async function registerRoutes(
       if (!article) {
         // 2. Fetch and parse
         try {
-          const response = await fetch(url);
+          const response = await fetch(url, {
+            headers: {
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            }
+          });
+          
+          if (!response.ok) {
+            return res.status(400).json({ message: `Failed to fetch URL: ${response.status}` });
+          }
+          
           const html = await response.text();
           const doc = new JSDOM(html, { url });
           const reader = new Readability(doc.window.document);
           const parsed = reader.parse();
 
-          if (!parsed) {
-            return res.status(400).json({ message: "Could not parse article content" });
-          }
+          // Extract title from page if Readability fails
+          const pageTitle = doc.window.document.querySelector("title")?.textContent || 
+                           doc.window.document.querySelector("h1")?.textContent || 
+                           "Untitled Article";
+          
+          // Even if Readability can't parse, save with basic content
+          const title = parsed?.title || pageTitle;
+          const content = parsed?.content || `<div class="prose">${html}</div>`;
+          const textContent = parsed?.textContent || doc.window.document.body?.textContent || "";
 
           article = await storage.createArticle({
             url,
-            title: parsed.title || "Untitled",
-            author: parsed.byline,
+            title: title.trim(),
+            author: parsed?.byline || null,
             domain: new URL(url).hostname,
             contentRaw: html,
-            contentClean: parsed.content, // HTML content
-            textContent: parsed.textContent, // Plain text for TTS
-            wordCount: parsed.textContent.split(/\s+/).length,
-            publishedDate: new Date(), // Approximate
+            contentClean: content,
+            textContent: textContent,
+            wordCount: textContent.split(/\s+/).filter(Boolean).length,
+            publishedDate: new Date(),
           });
-        } catch (fetchError) {
+        } catch (fetchError: any) {
           console.error("Fetch error:", fetchError);
-          return res.status(500).json({ message: "Failed to fetch URL" });
+          return res.status(500).json({ message: `Failed to fetch URL: ${fetchError.message}` });
         }
       }
 
