@@ -86,30 +86,56 @@
     @apply font-bold tracking-tight;
   }
   
-  /* Typography for Reader View */
+  /* Typography for Reader View (Matter-inspired) */
   .prose {
     @apply text-foreground max-w-none;
   }
   .prose p {
     font-family: var(--font-serif);
-    @apply leading-relaxed mb-6 text-lg text-foreground/90;
+    @apply leading-[1.8] mb-7 text-xl text-foreground/95;
+    font-size: 1.25rem;
+    line-height: 1.8;
   }
-  .prose h1, .prose h2, .prose h3 {
+  .prose-xl p {
+    @apply text-[1.375rem] leading-[1.85];
+  }
+  .prose h1, .prose h2, .prose h3, .prose h4 {
     font-family: var(--font-sans);
-    @apply font-bold text-foreground mt-10 mb-4;
+    @apply font-bold text-foreground mt-12 mb-6;
+    line-height: 1.2;
+  }
+  .prose h2 {
+    @apply text-3xl;
+  }
+  .prose h3 {
+    @apply text-2xl;
+  }
+  .prose h4 {
+    @apply text-xl;
   }
   .prose a {
-    @apply text-primary no-underline border-b border-primary/20 hover:border-primary transition-colors;
+    @apply text-primary no-underline border-b border-primary/30 hover:border-primary transition-colors;
   }
   .prose blockquote {
-    @apply border-l-4 border-primary pl-4 italic text-muted-foreground my-6;
+    @apply border-l-4 border-primary/40 pl-6 italic text-foreground/80 my-8 text-lg;
+    font-family: var(--font-serif);
   }
   .prose code {
     font-family: var(--font-mono);
-    @apply bg-muted px-1.5 py-0.5 rounded text-sm text-primary font-normal;
+    @apply bg-muted/50 px-2 py-1 rounded text-sm text-primary font-normal;
   }
   .prose pre {
-    @apply bg-muted p-4 rounded-lg overflow-x-auto my-6;
+    @apply bg-muted/50 p-5 rounded-lg overflow-x-auto my-8;
+  }
+  .prose img {
+    @apply rounded-lg my-8 w-full;
+  }
+  .prose ul, .prose ol {
+    @apply my-6 space-y-3;
+  }
+  .prose li {
+    @apply text-xl leading-[1.8];
+    font-family: var(--font-serif);
   }
 }
 

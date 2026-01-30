@@ -3,12 +3,14 @@ import { api, buildUrl } from "@shared/routes";
 import { z } from "zod";
 
 // Fetch list of articles
-export function useArticles(status?: 'inbox' | 'queue' | 'archive', search?: string) {
+export function useArticles(status?: 'home' | 'queue' | 'archive', search?: string) {
   return useQuery({
     queryKey: [api.articles.list.path, status, search],
     queryFn: async () => {
       const params = new URLSearchParams();
-      if (status) params.append("status", status);
+      // Map 'home' to 'inbox' for backend compatibility
+      const backendStatus = status === 'home' ? 'inbox' : status;
+      if (backendStatus) params.append("status", backendStatus);
       if (search) params.append("search", search);
       
       const url = `${api.articles.list.path}?${params.toString()}`;
@@ -34,12 +36,24 @@ export function useArticle(id: number) {
   });
 }
 
+// Normalize URL - add https:// if missing
+function normalizeUrl(input: string): string {
+  let normalized = input.trim();
+  // If it doesn't start with http:// or https://, add https://
+  if (!normalized.match(/^https?:\/\//i)) {
+    normalized = 'https://' + normalized;
+  }
+  return normalized;
+}
+
 // Ingest new article
 export function useIngestArticle() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (url: string) => {
-      const validated = api.articles.ingest.input.parse({ url });
+      // Normalize URL before validation
+      const normalizedUrl = normalizeUrl(url);
+      const validated = api.articles.ingest.input.parse({ url: normalizedUrl });
       const res = await fetch(api.articles.ingest.path, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -49,6 +63,10 @@ export function useIngestArticle() {
       
       if (!res.ok) {
         const error = await res.json();
+        // Handle Zod validation errors (array format)
+        if (Array.isArray(error) && error[0]?.message) {
+          throw new Error(error[0].message);
+        }
         throw new Error(error.message || "Failed to save article");
       }
       

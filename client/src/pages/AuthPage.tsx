@@ -21,7 +21,22 @@ export default function AuthPage() {
     e.preventDefault();
     try {
       await login.mutateAsync({ username, password });
-      setLocation("/inbox");
+      // Check if there's a pending share
+      const pendingShare = sessionStorage.getItem('pendingShare');
+      if (pendingShare) {
+        try {
+          const shareData = JSON.parse(pendingShare);
+          const params = new URLSearchParams();
+          if (shareData.url) params.set('url', shareData.url);
+          if (shareData.title) params.set('title', shareData.title);
+          if (shareData.text) params.set('text', shareData.text);
+          setLocation("/share?" + params.toString());
+        } catch {
+          setLocation("/home");
+        }
+      } else {
+        setLocation("/home");
+      }
     } catch (err: any) {
       toast({ title: "Error", description: err.message, variant: "destructive" });
     }
@@ -31,7 +46,7 @@ export default function AuthPage() {
     e.preventDefault();
     try {
       await register.mutateAsync({ username, password });
-      setLocation("/inbox");
+      setLocation("/home");
     } catch (err: any) {
       toast({ title: "Error", description: err.message, variant: "destructive" });
     }

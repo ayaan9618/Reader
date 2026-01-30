@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { 
-  Inbox, 
+  Home, 
   Layers, 
   Archive, 
   Highlighter, 
@@ -30,7 +30,7 @@ export function Sidebar() {
       await ingest.mutateAsync(url);
       setOpen(false);
       setUrl("");
-      toast({ title: "Article saved", description: "It's now in your inbox." });
+      toast({ title: "Article saved", description: "It's now in your home." });
     } catch (err: any) {
       toast({ 
         title: "Failed to save", 
@@ -41,7 +41,7 @@ export function Sidebar() {
   };
 
   const navItems = [
-    { label: "Inbox", icon: Inbox, href: "/inbox" },
+    { label: "Home", icon: Home, href: "/home" },
     { label: "Queue", icon: Layers, href: "/queue" },
     { label: "Archive", icon: Archive, href: "/archive" },
     { label: "Highlights", icon: Highlighter, href: "/highlights" },
@@ -128,13 +128,18 @@ export function MobileHeader() {
 
   const handleIngest = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!url.trim()) {
+      toast({ title: "Error", description: "Please enter a URL", variant: "destructive" });
+      return;
+    }
     try {
       await ingest.mutateAsync(url);
       setOpen(false);
       setUrl("");
       toast({ title: "Article saved" });
     } catch (err: any) {
-      toast({ title: "Error", description: err.message, variant: "destructive" });
+      const errorMessage = err.message || "Failed to save article. Please check the URL and try again.";
+      toast({ title: "Error", description: errorMessage, variant: "destructive" });
     }
   };
 
@@ -177,7 +182,7 @@ export function MobileNav() {
   const [location] = useLocation();
   
   const navItems = [
-    { label: "Inbox", icon: Inbox, href: "/inbox" },
+    { label: "Home", icon: Home, href: "/home" },
     { label: "Queue", icon: Layers, href: "/queue" },
     { label: "Archive", icon: Archive, href: "/archive" },
     { label: "Notes", icon: Highlighter, href: "/highlights" },

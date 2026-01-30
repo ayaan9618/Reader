@@ -1,22 +1,22 @@
 import { useArticles } from "@/hooks/use-articles";
 import { Sidebar, MobileNav, MobileHeader } from "@/components/Sidebar";
 import { ArticleCard } from "@/components/ArticleCard";
-import { Loader2, Search, Inbox, Layers, Archive } from "lucide-react";
+import { Loader2, Search, Home, Layers, Archive } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
 interface LibraryProps {
-  view: 'inbox' | 'queue' | 'archive';
+  view: 'home' | 'queue' | 'archive';
 }
 
 const titles = {
-  inbox: "Inbox",
+  home: "Home",
   queue: "Reading Queue",
   archive: "Archive"
 };
 
 const icons = {
-  inbox: Inbox,
+  home: Home,
   queue: Layers,
   archive: Archive
 };

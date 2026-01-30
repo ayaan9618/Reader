@@ -85,8 +85,15 @@ export async function registerRoutes(
       res.status(201).json({ ...libraryItem, article });
     } catch (err) {
       if (err instanceof z.ZodError) {
-        return res.status(400).json({ message: err.errors[0].message });
+        const errorDetails = err.errors.map(e => ({
+          validation: e.code,
+          code: e.code,
+          message: e.message,
+          path: e.path,
+        }));
+        return res.status(400).json(errorDetails);
       }
+      console.error("Article ingest error:", err);
       res.status(500).json({ message: "Internal Server Error" });
     }
   });

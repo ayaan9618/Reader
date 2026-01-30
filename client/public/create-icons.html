@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PWA Icon Generator</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    canvas { border: 1px solid #ccc; margin: 10px; }
+  </style>
+</head>
+<body>
+  <h1>PWA Icon Generator</h1>
+  <p>This will create 192x192 and 512x512 icons. Right-click each canvas and "Save image as..."</p>
+  
+  <canvas id="icon192" width="192" height="192"></canvas>
+  <canvas id="icon512" width="512" height="512"></canvas>
+  
+  <script>
+    function createIcon(canvas, size) {
+      const ctx = canvas.getContext('2d');
+      
+      // Background
+      ctx.fillStyle = '#ff6b35';
+      ctx.fillRect(0, 0, size, size);
+      
+      // Book icon
+      ctx.fillStyle = '#ffffff';
+      ctx.font = `bold ${size * 0.5}px Arial`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('📖', size / 2, size / 2);
+    }
+    
+    createIcon(document.getElementById('icon192'), 192);
+    createIcon(document.getElementById('icon512'), 512);
+  </script>
+</body>
+</html>

@@ -6,9 +6,11 @@ import { useUser } from "@/hooks/use-auth";
 import { Loader2 } from "lucide-react";
 
 import AuthPage from "@/pages/AuthPage";
+import Landing from "@/pages/Landing";
 import Library from "@/pages/Library";
 import Reader from "@/pages/Reader";
 import Highlights from "@/pages/Highlights";
+import ShareHandler from "@/pages/ShareHandler";
 import NotFound from "@/pages/not-found";
 
 function ProtectedRoute({ component: Component, ...rest }: any) {
@@ -32,14 +34,12 @@ function ProtectedRoute({ component: Component, ...rest }: any) {
 function Router() {
   return (
     <Switch>
+      <Route path="/" component={Landing} />
       <Route path="/auth" component={AuthPage} />
+      <Route path="/share" component={ShareHandler} />
       
-      <Route path="/">
-        <Redirect to="/queue" />
-      </Route>
-
-      <Route path="/inbox">
-        <ProtectedRoute component={() => <Library view="inbox" />} />
+      <Route path="/home">
+        <ProtectedRoute component={() => <Library view="home" />} />
       </Route>
       
       <Route path="/queue">
