@@ -2,5 +2,4 @@ name = "reader-app"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
-[pages_build_output_dir]
-directory = "dist/public"
+pages_build_output_dir = "dist/public"
